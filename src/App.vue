@@ -1,167 +1,403 @@
 <template>
-  <div id="app">
-    <div class="splash-container">
-    <div class="splash">
-        <h1 class="splash-head">Big Bold Text</h1>
-        <p class="splash-subhead">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-        </p>
-        <p>
-            <a href="http://purecss.io" class="pure-button pure-button-primary">Get Started</a>
-        </p>
-    </div>
-</div>
+<div id="app">
+  <div class="splash-container" >
+      <div class="splash">
+          <h1 class="splash-head">Hi, I'm Douglas Lerner</h1>
+          <p class="splash-subhead">
+              NYC Based Web Developer
+          </p>
+          <p>
+              <a href="http://purecss.io" class="pure-button pure-button-primary top-button">Resume</a>
+              <a href="http://purecss.io" class="pure-button pure-button-primary top-button">Email</a>
+              <a href="http://purecss.io" class="pure-button pure-button-primary top-button">Github</a>
+              <a href="http://purecss.io" class="pure-button pure-button-primary top-button">Linkedin</a>
+          </p>
+      </div>
+  </div>
 
-<div class="header">
-    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-        <a class="pure-menu-heading" href="">Your Site</a>
+  <div class="header">
+      <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+          <!-- <a class="pure-menu-heading" href="">Your Site</a> -->
+          <ul class="pure-menu-list">
+              <li class="pure-menu-item"><a href="#app" class="pure-menu-link">Home</a></li>
+              <li class="pure-menu-item"><a href="#portfolio" class="pure-menu-link">Portfolio</a></li>
+              <li class="pure-menu-item"><a href="#skills" class="pure-menu-link">Skills</a></li>
+              <li class="pure-menu-item"><a href="#about" class="pure-menu-link">About</a></li>
+          </ul>
+      </div>
+  </div>
 
-        <ul class="pure-menu-list">
-            <li class="pure-menu-item pure-menu-selected"><a href="#" class="pure-menu-link">Home</a></li>
-            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Tour</a></li>
-            <li class="pure-menu-item"><a href="#" class="pure-menu-link">Sign Up</a></li>
-        </ul>
-    </div>
-</div>
+<div class="content-wrapper" style="background:#FFFFFF;" id="portfolio">
+
+    <h2 class="content-head is-center">Portfolio</h2>
+
+  <div class="centered-buttons">
+    <button class="pure-button" 
+      v-for="type in filterPortfolio" 
+      @click="selectedWorks=type"
+      :style="selectedWorks==type?{background:'#2d3e50',color:'blue'}:{}"
+    >
+      {{type}}
+    </button>
+  </div>
+
+      <transition-group name="fade" tag="div" class="centered-layout portfolio-box">
+        <div class="content l-box-lrg pure-g project-img-box" 
+          v-for="work in works"
+          v-show="work.type.includes(selectedWorks)||selectedWorks=='All'"
+          :key="work.title"
+        >
+          <img class="screenshot pure-img-responsive" 
+              :src="work.src" :alt="work.title"
+            @click="showModal(work)"
+          >
+        </div>
+    </transition-group>
 
 
+    <div class="content"  id="skills">
+        <h2 class="content-head is-center">Technologies and Skills</h2>
+        <div class="pure-g animatedParent" data-sequence='200'>
 
-<div class="content-wrapper">
-    <div class="content">
-        <h2 class="content-head is-center">Excepteur sint occaecat cupidatat.</h2>
-
-        <div class="pure-g">
-            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
+            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4 "
+              v-for="skillType in skills"
+              >
                 <h3 class="content-subhead">
-                    <i class="fa fa-rocket"></i>
-                    Get Started Quickly
+                    <i :class="skillType.titleIcon"></i>{{skillType.title}}
                 </h3>
-                <p>
-                    Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.
-                </p>
+                <div class="icon-box">
+                  <div :class='skillType.animation' 
+                    v-for="skill in skillType.content"
+                    :data-id='skill["data-id"]'>
+                    <img :src="'icons/'+skill.src" :alt="skill.name" class="icon-tech" :style="skill.style?skill.style:null">
+                    <div class="icon-tech-name">{{skill.name}}</div>
+                  </div>
+                </div>
             </div>
-            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-                <h3 class="content-subhead">
-                    <i class="fa fa-mobile"></i>
-                    Responsive Layouts
-                </h3>
-                <p>
-                    Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.
-                </p>
-            </div>
-            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-                <h3 class="content-subhead">
-                    <i class="fa fa-th-large"></i>
-                    Modular
-                </h3>
-                <p>
-                    Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.
-                </p>
-            </div>
-            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4">
-                <h3 class="content-subhead">
-                    <i class="fa fa-check-square-o"></i>
-                    Plays Nice
-                </h3>
-                <p>
-                    Phasellus eget enim eu lectus faucibus vestibulum. Suspendisse sodales pellentesque elementum.
-                </p>
-            </div>
+
         </div>
     </div>
 
-    <div class="ribbon l-box-lrg pure-g">
-        <div class="l-box-lrg is-center pure-u-1 pure-u-md-1-2 pure-u-lg-2-5">
-            <img width="300" alt="File Icons" class="pure-img-responsive" src="img/common/file-icons.png">
-        </div>
-        <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-3-5">
+    <div class="ribbon" id="about">
+      <div class="contact-form">
+      <div class="pure-g">
 
-            <h2 class="content-head content-head-ribbon">Laboris nisi ut aliquip.</h2>
-
+        <div class="l-box-lrg pure-u-1 pure-u-md-3-5">
+      <h2 class="content-head-ribbon is-left">About Me</h2>
+            <!-- <h4>About Me</h4> -->
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat. Duis aute irure dolor.
+              I have an enthusiasm for creating web apps that connect people, educate, and entertain. I've worked on variety of projects for multiple start-ups, small businesses, a publishing house, and a record company.
+            </p><p>
+              Last year, I completed a batch at the <a href="http://www.recurse.com">Recurse Center</a>, which is a 3 month full-time self-directed programming retreat. While there, I immersed myself in projects that involved browser extension development, game development, machine learning, natural language processing, genetic algorithms, and computer generated music.
+            </p><p>
+              In addition to programming, I have experience working as an ESL teacher and Chinese translator, as well as a background in classical music and biology, and I often incorporate this expertise into my projects.
             </p>
-        </div>
-    </div>
 
-    <div class="content">
-        <h2 class="content-head is-center">Dolore magna aliqua. Uis aute irure.</h2>
-
-        <div class="pure-g">
-            <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
-                <form class="pure-form pure-form-stacked">
-                    <fieldset>
-
-                        <label for="name">Your Name</label>
-                        <input id="name" type="text" placeholder="Your Name">
-
-
-                        <label for="email">Your Email</label>
-                        <input id="email" type="email" placeholder="Your Email">
-
-                        <label for="password">Your Password</label>
-                        <input id="password" type="password" placeholder="Your Password">
-
-                        <button type="submit" class="pure-button">Sign Up</button>
-                    </fieldset>
-                </form>
-            </div>
-
-            <div class="l-box-lrg pure-u-1 pure-u-md-3-5">
-                <h4>Contact Us</h4>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                    consequat.
-                </p>
-
-                <h4>More Information</h4>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-               <a href="#"  class="pure-button"  data-micromodal-trigger="modal-1">asdasda</a>
-            </div>
         </div>
 
+        <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
+          <h2 class="content-head-ribbon is-left">Contact Me</h2>
+            <p>
+              I'm currently looking for full-time work. Don't hestate to get in touch!
+            </p>
+
+            <form class="pure-form pure-form-stacked contact-form" action="https://formspree.io/xeqjaajb" method="POST">
+                <fieldset>
+                    <input id="name" type="text" placeholder="Name" required>
+                    <input id="email" type="email" placeholder="Email" required>
+                    <textarea id="message" type="text" placeholder="Message" required></textarea>
+                    <button type="submit" class="pure-button">Send</button>
+                </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+        <div class="stars">
+            <div class="clouds">
+              <div class="animatedParent" style="opacity: .8;">
+                <img src="nyc.png" alt="nyc" style="width:100%;position: relative;z-index: 4;    margin-bottom: 0rem;" class='animated fadeInUp'>
+              </div>
+          </div>
+      </div>
     </div>
 
-<!--     <div class="footer l-box is-center">
-        View the source of this layout to learn more. Made with love by the YUI Team.
-    </div> -->
 
-</div>
-    <carousel>
-      <slide>
-        Slide 1 Content
+    <button @click="$modal.show('hello-world');"></button>
+
+<!--     <modal name="projects">
+    </modal> -->
+  <sweet-modal ref="modal" >
+    <h3 class="project-title">{{selectedWork.title}}</h3>
+    <carousel :per-page='1' :navigationEnabled="true">
+      <slide class="slide">
+         <img :src="selectedWork.src" :alt="selectedWork.title" class="pure-img-responsive">
       </slide>
-      <slide>
-        Slide 2 Content
+      <slide class="slide">
+        {{selectedWork.description}}
       </slide>
     </carousel>
-    <button @click="$modal.show('hello-world');"></button>
-    <modal name="hello-world">
-      hello, world!
-    </modal>
-  </div>
+   
+    <div>
+      <a target="_blank" :href="link.link" 
+        class='pure-button' v-for="link in selectedWork.links" 
+      >{{link.type}}</a>
+    </div>
+  </sweet-modal>
+
+</div>
+</div>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'app',
   components: {
     // HelloWorld
+  },
+  methods:{
+    showModal(work){
+      console.log(work)
+      this.selectedWork=work
+      // this.$modal.show('projects');
+      this.$refs.modal.open()
+    }
+  },
+  data(){
+    return{
+     filterPortfolio:['All','Front-End','Full-Stack','Educational','Browser Extensions','Games','Machine Learning'],
+      selectedWorks:'All',
+      selectedWork:{},
+      works:[
+        {
+          src:"projects/The Chrome Extension Cover.png",title:'e-Comments',
+          type:['Work','Educational','Front-End','Browser Extensions'],
+          tech:['VueJS', 'Vuex', 'Google Drive API', 'Web Speech API'],
+          description:`With the e-Comments Chrome Extension, teachers and workplace supervisors can insert hundreds of customizable Common Core-aligned comments, which identify, explain, and show  how to revise writing issues, with just one click from the e-Comments menu. Comments don’t simply flag errors or suggest revisions; these comprehensive comments help students learn. Teachers can add their own comments to the menu, including audio, video, and speech-to-text. Includes separate comment banks for grades 3-6, 6-9, 9-12, and College/Workplace.`,
+          details:``,
+          links:[{type:'Chrome Web Store',link:'https://chrome.google.com/webstore/detail/e-comments/dccccbckfnndplihkaeiekggmeicbhgj/'}]
+        },
+        {
+          src:"projects/kittieFight.png",title:'KittieFIGHT',
+          type:['Work','Games','Front-End'],
+          tech:['React', 'Redux', 'Phaser 3', 'Spine Animations', 'Web3.js'],
+          description:`In kittieFIGHT, tokens are awarded to winners of each fight session that utilizes customized fighting kittie characters derived from the Cryptokitties platform. kittieFIGHT is gamified with a unique economic token model utilizing limited supply with suppressed emissions and incentivized crowd dynamics to drive up each value of token necessary to reward owners of Cryptokitties non-fungible tokens.
+       
+          The kittieFIGHT Dapp also solves the problem of oversupply of Cryptokitties via a kittie-sink called kittieHELL. The sink effect from fights also serves to create demand for new kitties on the Cryptokitties platform. Winners of fights on the kittieFIGHT platform can trade winning tokens to buy more Cryptokitties collectibles.`,
+          details:``,
+          links:[{type:'Official Website',link:'https://www.kittiefight.io/'}]
+        },
+        {
+          src:"projects/charts DNP/Screenshot Charts.png",title:'Sales Charts',
+          type:['Work','Front-End'],
+          tech:['JavaScript','Charts.JS'],
+          description:`Interactive dashboard for sales reps, that reads data from Laravel backend and generates beautiful responsive animated sales charts.`,
+          details:``,
+          links:[{type:'Live Demo',link:'./projects/charts DNP/index.html'}]
+        },
+        {
+          src:"projects/Cocktail Party Neuro Evolution/screenshot 1.png",title:'NeuroEvolution Cocktail Party',
+          type:['Projects','Machine Learning','Front-End'],
+          tech:['Vanilla JS','Neatapic.js'],
+          description:`A simulation of human social interactions, which evolves social agents that can adapt to one another's behaviors. Uses a JavaScript implementation of the NEAT (Neuro Evolution through Augmented Topology) genetic algorithm, which evolves neural networks through the process of Darwinian evolution. `,
+          details:``,
+          links:[{type:'Live Demo',link:'./projects/Cocktail Party Neuro Evolution/index.html'},
+                {type:'Github',link:'https://github.com/DouglasDev/Neuro-Evolution-Cocktail-Party'}]
+        },
+        {
+          src:"projects/leetcode pairing screenshot.png",title:'LeetCode Pairing',
+          type:['Projects','Full-Stack','Browser Extensions'],
+          tech:['React', 'Node Express', 'Chrome API', 'Oauth2', 'WebRTC', 'Socket.io', 'Codemirror API', 'Webpack'],
+          description:`A Chrome extension which enables coders to pair program over the internet and solve LeetCode.com algorithm coding challenges together. Users can type into a shared text editor and video chat in real time, all in the browser.`,
+          details:``,
+          links:[{type:'Chrome Web Store', link:"https://chrome.google.com/webstore/detail/leetcode-pairing/jeonpfbokpeagbojffcijgpcpldgebfb"},
+              {type:'Github Repo', link:"https://github.com/MerkleBros/leetcode-pairing-chrome-extension"},]
+        },
+        {
+          src:"projects/cyberpunks client/Screenshot.png",title:'Cyberpunks Rock Climbing',
+          type:['Projects','Full-Stack','Games'],
+          tech:['Phaser', 'P2 Physics engine', 'Node Express', 'Socket.io'],
+          description:`A multiplayer, cooperative, physics-based rock climbing game. The players must scale the cliff without putting too much weight on any one limb, or they will fall off. Up to four players can join a game, with each player controlling a different limb.`,
+          details:``,
+          links:[{type:'Live Demo', link:"./projects/cyberpunks client/index.html"},
+            {type:'Github Repo', link:"https://github.com/jven/cyberpunks"},]
+        },
+        {
+          src:"projects/EvolutionScript/evolutionscript.png",title:'EvolutionScript',
+          type:['Projects','Machine Learning','Front-End'],
+          tech:['Vanilla JavaScript'],
+          description:`Genetic programming in the browser. The user enters a series of integers representing the desired output of a program, and the app generates hundreds of random abstract syntax trees which are converted into JavaScript programs, evaluated and sorted based on performance. The fittest ASTs are allowed to reproduce, mutate, and evolve, producing programs who's output approximates the user's input.`,
+          details:``,
+          links:[{type:'Live Demo', link:"./projects/EvolutionScript/index.html"},
+            {type:'Github Repo', link:"https://github.com/DouglasDev/General-AI"},]
+        },   
+        {
+          src:"projects/Mandarin Shadow Boxing/screenshot.png",title:'Mandarin Shadow Boxing',
+          type:['Projects','Educational','Front-End'],
+          tech:['jQuery','Howler.js'],
+          description:`A tool for learning spoken Mandarin Chinese which breaks down complex sentences into their simplest components allowing for rapid language acquisition. Based off the "shadowing" technique of language professor Alexander Arguelles, in which students learn phrases in a foreign language through imitation of recordings of native speakers.`,
+          details:``,
+          links:[{type:'Live Demo', link:"./projects/Mandarin Shadow Boxing/Mandarin_Shadow_Boxing.html"},
+            {type:'Github Repo', link:"https://github.com/DouglasDev/mandarin-shadow-boxing"},]
+        },
+      ],
+      skills:[
+        {
+          title:'Languages',
+          titleIcon:"fa fa-language",
+          animation:'animated fadeInLeft',
+          content:[
+            {'data-id':1,src:'es6.png',name:'JavaScript ES6+',},
+            {'data-id':1,src:'html5.png',name:'HTML5',},
+            {'data-id':2,src:'css3.png',name:'CSS3',},
+            {'data-id':2,src:'scss.png',name:'SCSS',},
+            {'data-id':3,src:'python.ico',name:'Python',},
+            {'data-id':3,src:'elm.png',name:'Elm',},
+          ]
+        },
+        {
+          title:'Frameworks',
+          titleIcon:"fa fa-crop",
+          animation:'animated fadeInUp',
+          content:[
+            {'data-id':1,src:'react.png',name:'React',},
+            {'data-id':1,src:'redux.png',name:'Redux',},
+            {'data-id':2,src:'vue.png',name:'Vue',},
+            {'data-id':2,src:'node.png',name:'Node Express',},
+            {'data-id':3,src:'jQuery.png',name:'jQuery',},
+          ]
+        },
+        {
+          title:'Libraries',
+          titleIcon:"fa fa-cubes",
+          animation:'animated fadeInUp',
+          content:[
+            {'data-id':1,src:'tone-js.png',name:'Tone JS',},
+            {'data-id':1,src:'webRTC.png',name:'WebRTC',},
+            {'data-id':2,src:'phaser.png',name:'Phaser',},
+            {'data-id':2,src:'cordova.png',name:'Cordova',},
+            {'data-id':3,src:'chrome.png',name:'Chrome',},
+          ]
+        },
+        {
+          title:'Tools',
+          titleIcon:"fa fa-terminal",
+          animation:'animated fadeInRight',
+          content:[
+            {'data-id':1,src:'git.png',name:'Git',},
+            {'data-id':2,src:'webpack.svg',name:'Webpack',style:{'margin-right': '-1.2rem'}},
+            {'data-id':3,src:'gulp.png',name:'Gulp',},
+            {'data-id':3,src:'jest.png',name:'Jest',},
+          ]
+        },
+      ]
+    }
   }
 }
 </script>
 
-<style lang="scss">
+<style>
+.slide{
+  display: flex;
+    align-items: center;
+    font-size: large;
+}
+.contact-form{
+  position: relative;
+    z-index: 10000;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+
+html{
+  scroll-behavior: smooth;
+}
+.centered-buttons{
+   max-width: 30rem;
+  margin: auto;
+  display: flex;
+  flex-flow: wrap;
+  justify-content: center;
+}
+.centered-buttons button{
+  margin: .15rem;
+}
+.pure-button{
+  margin: .15rem;
+}
+.centered-layout{
+  max-width: 1220px;
+    margin: 0 auto;
+}
+.project-img-box{
+  cursor: pointer;
+  max-width: 25rem;
+}
+.project-img-box img{
+  /*border-radius: 10px;*/
+  box-shadow: 0px 1px 4px rgba(0,0,255,0.4);
+}
+
+
+.portfolio-box{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.content,.ribbon{
+  padding-top: 4rem;
+}
+
+#about{
+background: rgb(45,62,80);
+background: linear-gradient(180deg, rgba(45,62,80,1) 0%, rgba(14,23,32,1) 80%);
+
+}
+#about a{
+  color: lightskyblue;
+}
+.contact-form{
+      width: 75%;
+    max-width: 71rem;
+    margin: auto;
+}
+.icon-tech{
+  width: 100px;
+  height: 100px;
+  transition: all linear .3s;
+}
+.icon-box{
+  display: flex;
+  flex-flow: flow;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.icon-box>div{
+  width: 10rem;
+  height: 11rem;
+  padding: 1rem;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: space-evenly;
+  text-align: center;
+  transition: all linear .3s;
+}
+.icon-box>div:hover .icon-tech{
+  width: 120px;
+  height: 120px;
+  padding-bottom: 6px;
+}
+.icon-box>div:hover{
+  box-shadow: 1px 5px 9px 3px rgba(0,0,0,0.25);
+}
+
 * {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -186,6 +422,10 @@ h5,
 h6,
 label {
     color: #34495e;
+}
+
+.top-button{
+  margin: .15rem;
 }
 
 .pure-img-responsive {
@@ -222,7 +462,7 @@ label {
     font-size: 100%;
 }
 
-.pure-form input[type] {
+.pure-form input[type],.pure-form textarea {
     border: 2px solid #ddd;
     box-shadow: none;
     font-size: 100%;
@@ -301,7 +541,7 @@ a.pure-button-primary {
     overflow: hidden;
     /* The following styles are required for the "scroll-over" effect */
     width: 100%;
-    height: 88%;
+    height: 100vh;
     top: 0;
     left: 0;
     position: fixed !important;
@@ -344,7 +584,7 @@ a.pure-button-primary {
 .content-wrapper {
     /* These styles are required for the "scroll-over" effect */
     position: absolute;
-    top: 87%;
+    top: 100vh;
     width: 100%;
     min-height: 12%;
     z-index: 2;
@@ -372,8 +612,12 @@ a.pure-button-primary {
 
 /* This is the class used for the content sub-headers (<h3>) */
 .content-subhead {
-    color: #1f8dd6;
+  /*color: #1f8dd6;*/
+  text-align: center;
+  font-weight: 100;
+  font-size: larger;
 }
+
     .content-subhead i {
         margin-right: 7px;
     }
@@ -381,7 +625,7 @@ a.pure-button-primary {
 /* This is the class used for the dark-background areas. */
 .ribbon {
     background: #2d3e50;
-    color: #aaa;
+    color: #ddd;
 }
 
 /* This is the class used for the footer */

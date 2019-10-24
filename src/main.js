@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import App from './App.vue'
-import VModal from 'vue-js-modal'
+// import VModal from 'vue-js-modal'
 import VueCarousel from 'vue-carousel';
-
+import SweetModal from 'sweet-modal-vue/src/plugin.js'
+Vue.use(SweetModal)
 Vue.use(VueCarousel);
-Vue.use(VModal)
+// Vue.use(VModal)
 
 Vue.config.productionTip = false
 
