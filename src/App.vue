@@ -7,10 +7,10 @@
               NYC Based Web Developer
           </p>
           <p>
-              <a href="http://purecss.io" class="pure-button pure-button-primary top-button">Resume</a>
-              <a href="http://purecss.io" class="pure-button pure-button-primary top-button">Email</a>
-              <a href="http://purecss.io" class="pure-button pure-button-primary top-button">Github</a>
-              <a href="http://purecss.io" class="pure-button pure-button-primary top-button">Linkedin</a>
+              <a target="_blank" href="./Douglas Lerner - Web Developer Resume.pdf" class="pure-button pure-button-primary top-button">Resume</a>
+              <a target="_blank" href="mailto:doug88@protonmail.com" class="pure-button pure-button-primary top-button">Email</a>
+              <a target="_blank" href="https://github.com/DouglasDev" class="pure-button pure-button-primary top-button">Github</a>
+              <a target="_blank" href="https://www.linkedin.com/in/douglas-lerner-66590467/" class="pure-button pure-button-primary top-button">Linkedin</a>
           </p>
       </div>
   </div>
@@ -41,25 +41,35 @@
     </button>
   </div>
 
-      <transition-group name="fade" tag="div" class="centered-layout portfolio-box">
-        <div class="content l-box-lrg pure-g project-img-box" 
-          v-for="work in works"
-          v-show="work.type.includes(selectedWorks)||selectedWorks=='All'"
-          :key="work.title"
-        >
-          <img class="screenshot pure-img-responsive" 
-              :src="work.src" :alt="work.title"
-            @click="showModal(work)"
-          >
+    <transition-group name="fade" tag="div" class="centered-layout portfolio-box ">
+      <div class="content l-box-lrg pure-g project-img-box" 
+        v-for="work in works"
+        v-show="work.type.includes(selectedWorks)||selectedWorks=='All'"
+        :key="work.title"
+      >
+      <div class="flip-card" @click="showModal(work)">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <img class="screenshot pure-img-responsive " 
+                  :src="work.src" :alt="work.title"
+              >
+              </div>
+            <div class="flip-card-back content-head" style="margin:0"><p>
+              <h2>{{work.title}}</h2>
+              <div class="skill-list">
+                <div class="skill-list-item" v-for="tech in work.tech">{{tech}}</div>
+              </div>
+            </p></div>
+          </div>
         </div>
+      </div>
     </transition-group>
-
 
     <div class="content"  id="skills">
         <h2 class="content-head is-center">Technologies and Skills</h2>
-        <div class="pure-g animatedParent" data-sequence='200'>
+        <div class="pure-g " >
 
-            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4 "
+            <div class="l-box pure-u-1 pure-u-md-1-2 pure-u-lg-1-4 animatedParent" data-sequence='200'
               v-for="skillType in skills"
               >
                 <h3 class="content-subhead">
@@ -84,7 +94,6 @@
 
         <div class="l-box-lrg pure-u-1 pure-u-md-3-5">
       <h2 class="content-head-ribbon is-left">About Me</h2>
-            <!-- <h4>About Me</h4> -->
             <p>
               I have an enthusiasm for creating web apps that connect people, educate, and entertain. I've worked on variety of projects for multiple start-ups, small businesses, a publishing house, and a record company.
             </p><p>
@@ -101,11 +110,11 @@
               I'm currently looking for full-time work. Don't hestate to get in touch!
             </p>
 
-            <form class="pure-form pure-form-stacked contact-form" action="https://formspree.io/xeqjaajb" method="POST">
+            <form class="pure-form pure-form-stacked contact-form-container" action="https://formspree.io/xeqjaajb" method="POST">
                 <fieldset>
-                    <input id="name" type="text" placeholder="Name" required>
-                    <input id="email" type="email" placeholder="Email" required>
-                    <textarea id="message" type="text" placeholder="Message" required></textarea>
+                    <input id="name" type="text" placeholder="Name" name="Name" required>
+                    <input id="email" type="email" placeholder="Email" name="Email"  required>
+                    <textarea id="message" type="text" placeholder="Message" name="Message"  required></textarea>
                     <button type="submit" class="pure-button">Send</button>
                 </fieldset>
             </form>
@@ -121,19 +130,14 @@
       </div>
     </div>
 
-
-    <button @click="$modal.show('hello-world');"></button>
-
-<!--     <modal name="projects">
-    </modal> -->
   <sweet-modal ref="modal" >
     <h3 class="project-title">{{selectedWork.title}}</h3>
     <carousel :per-page='1' :navigationEnabled="true">
-      <slide class="slide">
-         <img :src="selectedWork.src" :alt="selectedWork.title" class="pure-img-responsive">
+      <slide class="slide slide-text">
+        {{selectedWork.description}}
       </slide>
       <slide class="slide">
-        {{selectedWork.description}}
+         <img :src="selectedWork.src" :alt="selectedWork.title" class="pure-img-responsive">
       </slide>
     </carousel>
    
@@ -153,13 +157,11 @@
 export default {
   name: 'app',
   components: {
-    // HelloWorld
   },
   methods:{
     showModal(work){
       console.log(work)
       this.selectedWork=work
-      // this.$modal.show('projects');
       this.$refs.modal.open()
     }
   },
@@ -297,14 +299,96 @@ export default {
 </script>
 
 <style>
+/* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+.flip-card {
+  background-color: transparent;
+  width: 300px;
+  height: 200px;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+  color: black;
+  display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Style the back side */
+.flip-card-back {
+  background-color: #f5f5f5;
+  border: 1px solid #f1f1f1;
+  transform: rotateY(180deg);
+}
+
+.skill-list{
+  display: flex;
+  flex-flow: wrap;
+  margin-left: 3px;
+}
+
+.skill-list-item{
+  background: rgba(0,0,255,0.4);
+  padding: 0.2rem .5rem .1rem;
+  color: white;
+  border-radius: 11px;
+  margin: .1rem;
+  font-size: small;
+}
+
+#skills{
+  background:#f5f5f5;
+}
 .slide{
   display: flex;
     align-items: center;
     font-size: large;
+    cursor: grab;
 }
-.contact-form{
+
+.slide-text{
+  background:#f5f5f5;
+  padding: 0 3rem;
+}
+
+.slide:active{
+  cursor: grabbing;
+}
+.contact-form-container{
   position: relative;
     z-index: 10000;
+    width: 100%;
+    max-width: 28rem;
+    margin:right;
+}
+.contact-form{
+      width: 75%;
+    max-width: 71rem;
+    margin: auto;
 }
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
@@ -362,11 +446,7 @@ background: linear-gradient(180deg, rgba(45,62,80,1) 0%, rgba(14,23,32,1) 80%);
 #about a{
   color: lightskyblue;
 }
-.contact-form{
-      width: 75%;
-    max-width: 71rem;
-    margin: auto;
-}
+
 .icon-tech{
   width: 100px;
   height: 100px;
@@ -463,6 +543,7 @@ label {
 }
 
 .pure-form input[type],.pure-form textarea {
+  color: darkslategray;
     border: 2px solid #ddd;
     box-shadow: none;
     font-size: 100%;
