@@ -121,6 +121,14 @@
     transform: translateX(400px); 
 }
 
+.fadeInUpOpaque{
+    opacity:1;
+    -webkit-transform: translateX(400px); 
+    transform: translateX(400px); 
+
+}
+
+
 .flipInX, .flipInY, .rotateIn, .rotateInUpLeft, .rotateInUpRight, .rotateInDownLeft, .rotateDownUpRight, .rollIn{
     opacity:0;
 }
@@ -598,7 +606,35 @@
     -webkit-animation-name: fadeInUp; 
     animation-name: fadeInUp; 
 }
+/*************
+* FadeInUpOpaque *
+*************/
 
+@-webkit-keyframes FadeInUpOpaque { 
+    0% { 
+        -webkit-transform: translateY(400px); 
+    } 
+    100% { 
+        -webkit-transform: translateY(0); 
+    } 
+} 
+@keyframes FadeInUpOpaque { 
+    0% { 
+        transform: translateY(400px); 
+    } 
+    100% { 
+        transform: translateY(0); 
+    } 
+} 
+.FadeInUpOpaque{ 
+    opacity: 1; 
+    -webkit-transform: translateY(400px); 
+    transform: translateY(400px);
+}
+.FadeInUpOpaque.go { 
+    -webkit-animation-name: FadeInUpOpaque; 
+    animation-name: FadeInUpOpaque; 
+}
 /*************
 * FadeInDown *
 *************/
